@@ -486,7 +486,6 @@ function render() {
       const isNew  = iss.regDate.slice(0,10) === selDate;
       const badges = [
         `<span class="badge badge-cat">${iss.category}</span>`,
-        isNew       ? '<span class="badge badge-new">NEW</span>'     : '',
         iss.ongoing ? '<span class="badge badge-ongoing">긴급</span>' : '',
       ].filter(Boolean).join('');
 
