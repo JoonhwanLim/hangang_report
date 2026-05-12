@@ -75,6 +75,9 @@ html[data-theme="light"] {
   box-sizing: border-box; /* padding이 요소 크기를 밀어내지 않게 */
 }
 
+/* 가로 스크롤 방지 — body만으론 모바일 브라우저에서 안 먹힘, html도 필요 */
+html { overflow-x: hidden; max-width: 100%; }
+
 /* 페이지 기반 스타일 */
 body {
   background: var(--bg);          /* CSS 변수로 테마 전환 가능 */
@@ -2377,7 +2380,7 @@ html[data-theme="light"] .attachment-section { border-color: #c4d0e8; }
     grid-template-rows: auto auto;
   }
   .sev-bar    { grid-area: bar; }
-  .issue-body { grid-area: body; padding: 9px 10px; gap: 6px; }
+  .issue-body { grid-area: body; padding: 9px 10px; gap: 6px; min-width: 0; overflow: hidden; }
 
   /* 4. 상태 패널 — 하단으로 이동, 가로 배치 */
   .issue-right {
@@ -2416,6 +2419,7 @@ html[data-theme="light"] .attachment-section { border-color: #c4d0e8; }
   .action-footer { padding: 6px 8px; gap: 5px; }
   .af-txt        { font-size: 12px; }
 
-  /* 7. 조치사항 버튼 — 일관된 크기 */
-  .followup-btn { font-size: 11px; padding: 5px 10px; white-space: nowrap; flex-shrink: 0; }
+  /* 7. 조치사항 버튼 — 일관된 크기, overflow 방지 */
+  .followup-btn { font-size: 11px; padding: 5px 8px; white-space: nowrap; flex-shrink: 0; max-width: 80px; }
+  .action-footer { overflow: hidden; }
 }
