@@ -2316,25 +2316,29 @@ html[data-theme="light"] .attachment-section { border-color: #c4d0e8; }
     transition: none;
   }
   .modal-overlay.open { display: flex; }
+
+  /* 모달 박스를 오버레이와 독립적으로 position:fixed 전체화면으로 띄움
+     오버레이 GPU 레이어 자식 렌더링 버그를 완전히 우회 */
   .modal-box {
+    position: fixed !important;
+    inset: 0 !important;
     width: 100% !important;
-    max-width: 100%;
-    border-radius: 16px 16px 0 0;
-    height: 85vh;
-    max-height: none;
+    max-width: 100% !important;
+    height: 100% !important;
+    max-height: none !important;
+    border-radius: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    z-index: 10001 !important;
     overflow-y: auto;
-    transform: none !important;   /* 전역 translateY 애니메이션 무력화 */
+    transform: none !important;
     transition: none !important;
-    box-shadow: 0 -8px 40px rgba(0,0,0,.5);
-    /* CSS 변수가 GPU 레이어에서 렌더링 안 되는 WebView 버그 → 하드코딩 */
     background: #111827 !important;
     color: #e8edf5 !important;
-    border-color: #1a2840 !important;
   }
   html[data-theme="light"] .modal-box {
-    background: #ffffff !important;
+    background: #f4f7fd !important;
     color: #0c1729 !important;
-    border-color: #c4d0e8 !important;
   }
 
   /* ── 모니터 ── */
