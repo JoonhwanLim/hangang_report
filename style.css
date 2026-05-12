@@ -2330,9 +2330,10 @@ html[data-theme="light"] .attachment-section { border-color: #c4d0e8; }
   .date-nav-sep  { margin: 0 6px; }
 
   /* ── 보고서 헤더 ── */
-  #rpt-header-bar { padding: 8px 10px; gap: 4px; }
-  .rpt-bar-left   { flex: 1; min-width: 0; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .rpt-bar-right  { flex-shrink: 0; }
+  #rpt-header-bar      { padding: 8px 10px; gap: 4px; }
+  .rpt-bar-left        { flex: 1; min-width: 0; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rpt-bar-right       { flex-shrink: 0; }
+  #rpt-personnel-display { display: none; }
 
   /* ── 통계 ── */
   #stats     { grid-template-columns: 1fr 1fr; }
