@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>로그인 — 교량 안전감시 시스템</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230a1628'/><path d='M3,20 A13,13 0 0,1 29,20' stroke='%23a8c4e8' stroke-width='3.5' fill='none'/><path d='M7,20 A9,9 0 0,1 25,20' stroke='%236080aa' stroke-width='2.5' fill='none'/><path d='M11,20 A5,5 0 0,1 21,20' stroke='%2390aac4' stroke-width='2' fill='none'/><line x1='2' y1='20' x2='30' y2='20' stroke='%23a8c4e8' stroke-width='2'/><polyline points='8,20 11,20 13,16 15,24 17,16 19,20 24,20' fill='none' stroke='%23a8c4e8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="교량 안전감시 시스템">
+  <meta property="og:description" content="교량 실시간 모니터링 및 일일 운영 보고서">
+  <meta property="og:image"       content="https://aimurxmqzrgajsuvhllz.supabase.co/storage/v1/object/public/issue-attachments/og-thumb.png">
+  <meta name="twitter:card"       content="summary">
+  <meta name="theme-color"        content="#0a1628">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@latest/dist/web/static/pretendardgov.css">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { display: flex; align-items: center; justify-content: center; min-height: 100vh; min-height: 100svh; padding: 20px 0; }
+    .login-footer-badge { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); }
+  </style>
+</head>
+<body>
+
+<div class="login-box">
+  <div class="login-emblem">
+    <svg width="54" height="40" viewBox="0 0 100 72" xmlns="http://www.w3.org/2000/svg" fill="none">
+      <path d="M5,52 A45,45 0 0,1 95,52"  stroke="#1a2f5e" stroke-width="9"/>
+      <path d="M15,52 A35,35 0 0,1 85,52" stroke="#2a4878" stroke-width="6.5"/>
+      <path d="M24,52 A26,26 0 0,1 76,52" stroke="#5f80aa" stroke-width="5"/>
+      <path d="M32,52 A18,18 0 0,1 68,52" stroke="#90aac4" stroke-width="4"/>
+      <line x1="3" y1="52" x2="97" y2="52" stroke="#1a2f5e" stroke-width="5"/>
+      <rect x="3"  y="52" width="14" height="12" fill="#1a2f5e" rx="1.5"/>
+      <rect x="83" y="52" width="14" height="12" fill="#1a2f5e" rx="1.5"/>
+      <polyline points="20,52 33,52 38,42 42,30 46,64 50,42 54,52 80,52"
+                stroke="#1a2f5e" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </div>
+
+  <div class="login-sys-code" id="login-sys-code">BRIDGE SAFETY MONITORING</div>
+  <div class="login-title"    id="login-title">교량 안전감시 시스템</div>
+  <div class="login-subtitle">일일 모니터링 보고서</div>
+
+  <div class="login-sep"></div>
+
+  <div class="login-form">
+    <div class="lf-group">
+      <label class="lf-label">이메일</label>
+      <input type="email" id="login-email" class="login-input" placeholder="name@example.com" autocomplete="email">
+    </div>
+    <div class="lf-group">
+      <label class="lf-label">비밀번호</label>
+      <input type="password" id="login-pw" class="login-input" placeholder="••••••••" autocomplete="current-password">
+    </div>
+    <button class="login-btn" onclick="handleLogin()">시스템 접속</button>
+    <div id="login-error" class="login-error"></div>
+  </div>
+</div>
+
+<div class="login-footer-badge">Seoul Metropolitan Government · Authorized Access Only</div>
+
+<!-- 이름 설정 모달 (로그인 후 이름 미설정 시 표시) -->
+<div class="modal-overlay" id="name-setup-overlay">
+  <div class="modal-box" style="max-width:360px">
+    <div class="modal-header">
+      <div class="modal-title">👤 이름 설정</div>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">보고서와 댓글에 표시될 이름을 입력해주세요.</p>
+      <div class="ef-row">
+        <label class="ef-label">이름</label>
+        <input class="ef-input" id="name-setup-input" placeholder="홍길동"
+          onkeydown="if(event.key==='Enter')submitNameSetup()">
+      </div>
+      <div id="name-setup-error" style="color:#ff6b6b;font-size:12px;margin-top:8px;"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-save" onclick="submitNameSetup()">확인</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // 로그인 페이지에 필요한 최소 전역 변수
+  const SUPABASE_URL = 'https://aimurxmqzrgajsuvhllz.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_l7nSkAIL9W8dNonKauFQ4A_RpDA1JmU';
+  let sbClient       = null;
+  let currentProject = null;
+
+  // FOUC 방지
+  document.documentElement.setAttribute('data-theme', localStorage.getItem('ui-theme') || 'light');
+</script>
+<script src="js/auth.js"></script>
+<script>loginPageInit();</script>
+
+</body>
+</html>

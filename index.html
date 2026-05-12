@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>교량 안전감시 시스템</title>
+
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%230a1628'/><path d='M3,20 A13,13 0 0,1 29,20' stroke='%23a8c4e8' stroke-width='3.5' fill='none'/><path d='M7,20 A9,9 0 0,1 25,20' stroke='%236080aa' stroke-width='2.5' fill='none'/><path d='M11,20 A5,5 0 0,1 21,20' stroke='%2390aac4' stroke-width='2' fill='none'/><line x1='2' y1='20' x2='30' y2='20' stroke='%23a8c4e8' stroke-width='2'/><polyline points='8,20 11,20 13,16 15,24 17,16 19,20 24,20' fill='none' stroke='%23a8c4e8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/></svg>">
+
+  <meta property="og:type"        content="website">
+  <meta property="og:title"       content="교량 안전감시 시스템">
+  <meta property="og:description" content="교량 실시간 모니터링 및 일일 운영 보고서">
+  <meta property="og:image"       content="https://aimurxmqzrgajsuvhllz.supabase.co/storage/v1/object/public/issue-attachments/og-thumb.png">
+  <meta name="twitter:card"       content="summary">
+  <meta name="theme-color"        content="#0a1628">
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pretendard@latest/dist/web/static/pretendardgov.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ══════ 스티키 상단 (#sticky-top) ══════ -->
+<div id="sticky-top">
+
+  <!-- 헤더 -->
+  <div id="header">
+    <div class="header-brand">
+      <div class="logo-sub"   id="logo-sub">BRIDGE ONLINE MONITORING SYSTEM</div>
+      <div class="logo-title" id="logo-title">교량 온라인 안전감시 시스템 운영관리</div>
+    </div>
+    <div class="header-right">
+      <a id="apk-download-btn" class="theme-toggle-btn" href="https://aimurxmqzrgajsuvhllz.supabase.co/storage/v1/object/public/apk/hangang_report_260512.apk" download style="text-decoration:none;display:none">⬇️<span class="btn-txt"> 앱 다운로드</span></a>
+      <button class="theme-toggle-btn" id="theme-toggle-btn" onclick="toggleTheme()">🌙<span class="btn-txt"> 다크</span></button>
+      <button class="logout-btn" onclick="handleLogout()">🚪<span class="btn-txt"> 로그아웃</span></button>
+    </div>
+  </div>
+
+  <!-- 날짜 네비게이션 -->
+  <div id="date-nav">
+    <div class="cal-wrap">
+      <button class="cal-btn" id="cal-toggle-btn" onclick="toggleCalendar()">
+        📅 날짜 선택
+        <span class="cal-caret">▾</span>
+      </button>
+      <div class="cal-dropdown" id="cal-dropdown"></div>
+    </div>
+    <div class="date-nav-sep"></div>
+    <div id="date-tabs" style="display:flex;gap:6px;align-items:center;"></div>
+    <div id="gen-btn-area" style="margin-left:auto;"></div>
+  </div>
+
+  <div id="section-divider"></div>
+
+</div><!-- /sticky-top -->
+
+
+<!-- ══════ 보고서 섹션 (#report-section) ══════ -->
+<div id="report-section">
+
+  <!-- 제목 바 -->
+  <div id="rpt-header-bar">
+    <div class="rpt-bar-left" id="rpt-bar-left">📋 일일 모니터링 보고서</div>
+    <div class="rpt-bar-right">
+      <div id="rpt-personnel-display"></div>
+      <button class="rpt-print-btn" onclick="printReport()" title="PDF 출력">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="22" viewBox="0 0 20 24">
+          <path d="M2 0h11l7 7v17H2z" fill="#fff0f0" stroke="#e74c3c" stroke-width="1.2"/>
+          <path d="M13 0l7 7h-7z" fill="#e74c3c"/>
+          <rect x="2" y="13.5" width="16" height="8" fill="#e74c3c"/>
+          <text x="10" y="20" text-anchor="middle" font-family="Arial,sans-serif" font-size="6.5" font-weight="bold" fill="white">PDF</text>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- 인쇄 전용 날짜 헤더 -->
+  <div id="print-date-line" class="print-only"></div>
+
+  <!-- 통계 바 -->
+  <div id="stats">
+    <div class="stat-cell">
+      <span class="stat-lbl">전체 이슈</span>
+      <div class="stat-total-row">
+        <span class="stat-val" id="s-total" style="color:var(--txt)">0</span>
+        <div class="stat-newcarry" id="stat-newcarry"></div>
+      </div>
+      <div class="stat-bar-wrap"><div class="stat-bar-fill" id="sb-total" style="width:100%;background:var(--muted)"></div></div>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-lbl">대기중</span>
+      <span class="stat-val" id="s-wait" style="color:var(--warn)">0</span>
+      <div class="stat-bar-wrap"><div class="stat-bar-fill" id="sb-wait" style="background:var(--warn)"></div></div>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-lbl">진행중</span>
+      <span class="stat-val" id="s-prog" style="color:var(--acc)">0</span>
+      <div class="stat-bar-wrap"><div class="stat-bar-fill" id="sb-prog" style="background:var(--acc)"></div></div>
+    </div>
+    <div class="stat-cell">
+      <span class="stat-lbl">완료</span>
+      <span class="stat-val" id="s-done" style="color:var(--ok)">0</span>
+      <div class="stat-bar-wrap"><div class="stat-bar-fill" id="sb-done" style="background:var(--ok)"></div></div>
+    </div>
+  </div>
+
+  <div id="notice-area"></div>
+  <div id="filter-area"></div>
+  <div id="main"></div>
+
+  <div id="footer">
+    <span class="footer-note" id="footer-note">BRIDGE ONLINE MONITORING SYSTEM · DAILY STATUS REPORT</span>
+  </div>
+
+</div>
+
+
+<!-- ══════ 이슈 추가 모달 ══════ -->
+<div class="modal-overlay" id="add-modal-overlay" onclick="handleModalOverlayClick(event)">
+  <div class="modal-box" id="add-modal-box">
+    <div class="modal-header">
+      <div class="modal-title">+ 새 이슈 등록</div>
+      <button class="modal-close" onclick="closeAddModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="ef-grid">
+        <div class="ef-row">
+          <label class="ef-label">교량명</label>
+          <input class="ef-input" id="af-bridge" list="af-bridge-list" placeholder="교량명 입력">
+          <datalist id="af-bridge-list"></datalist>
+        </div>
+        <div class="ef-row">
+          <label class="ef-label">카테고리</label>
+          <select class="ef-select" id="af-cat">
+            <option>데이터</option><option>센서</option><option>서버</option>
+            <option>DB</option><option>네트워크</option><option>설정</option><option>기타</option>
+          </select>
+        </div>
+      </div>
+      <div class="ef-row">
+        <label class="ef-label">문제 내용</label>
+        <textarea class="ef-textarea" id="af-problem" placeholder="발생한 문제를 입력하세요"></textarea>
+      </div>
+      <div class="ef-row">
+        <label class="ef-label">조치 내용</label>
+        <textarea class="ef-textarea" id="af-action" placeholder="조치 계획을 입력하세요"></textarea>
+      </div>
+      <div class="ef-grid">
+        <div class="ef-row">
+          <label class="ef-label">담당자</label>
+          <input class="ef-input" id="af-assignee" placeholder="담당자 이름">
+        </div>
+        <div class="ef-row">
+          <label class="ef-label">옵션</label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);margin-top:10px;cursor:pointer">
+            <input type="checkbox" id="af-ongoing"> 긴급으로 등록
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-cancel" onclick="closeAddModal()">취소</button>
+      <button class="modal-save"   onclick="submitAddForm()">등록</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════ 이슈 수정 모달 ══════ -->
+<div class="modal-overlay" id="edit-modal-overlay" onclick="handleEditModalOverlayClick(event)">
+  <div class="modal-box" id="edit-modal-box">
+    <div class="modal-header">
+      <div class="modal-title">✏️ 이슈 수정</div>
+      <button class="modal-close" onclick="closeEditModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="ef-grid">
+        <div class="ef-row">
+          <label class="ef-label">교량명</label>
+          <input class="ef-input" id="em-bridge" readonly style="opacity:.55;cursor:default">
+        </div>
+        <div class="ef-row">
+          <label class="ef-label">카테고리</label>
+          <select class="ef-select" id="em-cat">
+            <option>데이터</option><option>센서</option><option>서버</option>
+            <option>DB</option><option>네트워크</option><option>설정</option><option>기타</option>
+          </select>
+        </div>
+      </div>
+      <div class="ef-row">
+        <label class="ef-label">문제 내용</label>
+        <textarea class="ef-textarea" id="em-problem"></textarea>
+      </div>
+      <div class="ef-row">
+        <label class="ef-label">조치 내용</label>
+        <textarea class="ef-textarea" id="em-action"></textarea>
+      </div>
+      <div class="ef-grid">
+        <div class="ef-row">
+          <label class="ef-label">담당자</label>
+          <input class="ef-input" id="em-assignee">
+        </div>
+        <div class="ef-row">
+          <label class="ef-label">옵션</label>
+          <label style="display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);margin-top:10px;cursor:pointer">
+            <input type="checkbox" id="em-ongoing"> 긴급으로 표시
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-delete" onclick="deleteIssue()">🗑 삭제</button>
+      <button class="modal-cancel" onclick="closeEditModal()">취소</button>
+      <button class="modal-save"   onclick="saveEdit()">저장</button>
+    </div>
+  </div>
+</div>
+
+
+<!-- ══════ 지난이슈 검색 모달 ══════ -->
+<div class="modal-overlay" id="search-modal-overlay" onclick="handleSearchModalOverlayClick(event)">
+  <div class="modal-box search-modal-box" id="search-modal-box">
+    <div class="modal-header">
+      <div class="modal-title">🗂 지난이슈 검색</div>
+      <button class="modal-close" onclick="closeSearchModal()">✕</button>
+    </div>
+    <div class="search-modal-body">
+      <div class="search-modal-input-wrap">
+        <span class="search-modal-icon">🔍</span>
+        <input class="search-modal-input" id="search-modal-input"
+          placeholder="키워드 입력 (예: HDD, 센서 고장, 행주대교...)"
+          autocomplete="off"
+          oninput="renderSearchResults(this.value)"
+          onkeydown="if(event.key==='Escape')closeSearchModal()">
+      </div>
+      <div id="search-modal-results" class="search-modal-results"></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/app.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/db.js"></script>
+<script src="js/render.js"></script>
+<script src="js/modal.js"></script>
+<script>initApp();</script>
+
+</body>
+</html>
