@@ -2313,12 +2313,11 @@ html[data-theme="light"] .attachment-section { border-color: #c4d0e8; }
     -webkit-backdrop-filter: none;
     opacity: 1;
     transition: none;
-    transform: translateZ(0);
   }
   .modal-overlay.open { display: flex; }
   .modal-box {
     max-height: 88vh;
-    transform: translateZ(0);
+    transform: none;
     transition: none;
   }
 
