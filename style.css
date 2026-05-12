@@ -1170,7 +1170,6 @@ html[data-theme="light"] .ac-item mark { color: #1653c7; }
   display: flex;
   align-items: center;
   justify-content: center;
-  will-change: transform;         /* GPU 컴포짓 강제 — Android WebView z-index 버그 우회 */
   opacity: 0;
   transition: opacity .2s;
   pointer-events: none;           /* 닫힌 상태에서 클릭 차단 */
@@ -2324,9 +2323,18 @@ html[data-theme="light"] .attachment-section { border-color: #c4d0e8; }
     height: 85vh;
     max-height: none;
     overflow-y: auto;
-    transform: none;
-    transition: none;
+    transform: none !important;   /* 전역 translateY 애니메이션 무력화 */
+    transition: none !important;
     box-shadow: 0 -8px 40px rgba(0,0,0,.5);
+    /* CSS 변수가 GPU 레이어에서 렌더링 안 되는 WebView 버그 → 하드코딩 */
+    background: #111827 !important;
+    color: #e8edf5 !important;
+    border-color: #1a2840 !important;
+  }
+  html[data-theme="light"] .modal-box {
+    background: #ffffff !important;
+    color: #0c1729 !important;
+    border-color: #c4d0e8 !important;
   }
 
   /* ── 모니터 ── */
