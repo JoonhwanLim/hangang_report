@@ -28,16 +28,18 @@
       <div class="logo-sub"   id="logo-sub">BRIDGE ONLINE MONITORING SYSTEM</div>
       <div class="logo-title" id="logo-title">교량 온라인 안전감시 시스템 운영관리</div>
     </div>
-    <div class="header-right">
-      <span class="header-user" id="header-user"></span>
+    <div class="header-actions">
+      <span class="ha-user" id="header-user"></span>
+      <div class="ha-sep user-sep"></div>
+      <button class="ha-logout" onclick="handleLogout()">로그아웃</button>
+      <div class="ha-sep"></div>
       <div class="settings-wrap" id="settings-wrap">
-        <button class="theme-toggle-btn" id="settings-btn" onclick="toggleSettingsMenu()">⚙️</button>
+        <button class="ha-settings" id="settings-btn" onclick="toggleSettingsMenu()">⚙️</button>
         <div class="settings-dropdown" id="settings-dropdown">
           <button class="settings-item" id="theme-toggle-btn" onclick="toggleTheme()">🌙 다크 모드</button>
           <a id="apk-download-btn" class="settings-item" href="https://aimurxmqzrgajsuvhllz.supabase.co/storage/v1/object/public/apk/hangang_report_260512.apk" download style="display:none;text-decoration:none">⬇️ 앱 다운로드</a>
         </div>
       </div>
-      <button class="logout-btn" onclick="handleLogout()">🚪<span class="btn-txt"> 로그아웃</span></button>
     </div>
   </div>
 
