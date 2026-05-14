@@ -229,35 +229,27 @@ html[data-theme="light"] .header-date { color: #a8c4f0; } /* 네이비 배경 �
 .user-menu-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
-  background: rgba(255, 255, 255, .07);
-  border: 1px solid rgba(255, 255, 255, .13);
+  gap: 7px;
+  padding: 5px 9px;
+  background: transparent;
+  border: none;
   border-radius: 8px;
-  color: rgba(255, 255, 255, .88);
+  color: rgba(255, 255, 255, .9);
   font-family: 'PretendardGOV', sans-serif;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: background .15s, border-color .15s;
+  transition: background .15s;
   white-space: nowrap;
 }
-.user-menu-btn:hover {
-  background: rgba(255, 255, 255, .12);
-  border-color: rgba(255, 255, 255, .22);
-}
-html[data-theme="light"] .user-menu-btn {
-  background: rgba(255, 255, 255, .12);
-  border-color: rgba(255, 255, 255, .22);
-  color: #fff;
-}
-html[data-theme="light"] .user-menu-btn:hover {
-  background: rgba(255, 255, 255, .2);
-}
+.user-menu-btn:hover { background: rgba(255, 255, 255, .1); }
+html[data-theme="light"] .user-menu-btn { color: #fff; }
+html[data-theme="light"] .user-menu-btn:hover { background: rgba(255, 255, 255, .15); }
+
 .user-menu-caret {
-  font-size: 10px;
-  color: rgba(255, 255, 255, .45);
-  margin-left: 2px;
+  font-size: 9px;
+  color: rgba(255, 255, 255, .4);
+  margin-left: 1px;
 }
 
 /* 드롭다운 패널 */
@@ -281,14 +273,32 @@ html[data-theme="light"] .user-dropdown {
   border-color: rgba(255, 255, 255, .2);
 }
 
-/* 드롭다운 상단 이름 표시 (비활성) */
-.ud-name {
-  padding: 13px 16px 11px;
-  font-size: 13px;
-  font-weight: 700;
-  color: rgba(255, 255, 255, .55);
-  letter-spacing: -.2px;
+/* 드롭다운 상단 아바타 + 이름 */
+.ud-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px 12px;
   pointer-events: none;
+}
+.ud-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #5b8fd6, #3a6dbf);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.ud-username {
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, .92);
+  letter-spacing: -.2px;
 }
 
 /* 구분선 */

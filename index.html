@@ -34,12 +34,15 @@
         <span class="user-menu-caret">▾</span>
       </button>
       <div class="user-dropdown" id="user-dropdown">
-        <div class="ud-name" id="ud-name"></div>
+        <div class="ud-header">
+          <span class="ud-avatar" id="ud-avatar">?</span>
+          <span class="ud-username" id="ud-name"></span>
+        </div>
         <div class="ud-sep"></div>
         <button class="ud-item" id="theme-toggle-btn" onclick="toggleTheme()">🌙 다크 모드</button>
         <a id="apk-download-btn" class="ud-item" href="https://aimurxmqzrgajsuvhllz.supabase.co/storage/v1/object/public/apk/hangang_report_260512.apk" download style="display:none;text-decoration:none">⬇️ 앱 다운로드</a>
         <div class="ud-sep"></div>
-        <button class="ud-item ud-logout" onclick="handleLogout()">로그아웃</button>
+        <button class="ud-item ud-logout" onclick="handleLogout()">🚪 로그아웃</button>
       </div>
     </div>
   </div>

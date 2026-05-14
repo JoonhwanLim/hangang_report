@@ -177,8 +177,10 @@ async function initApp() {
   currentUser = name;
   const headerUser = document.getElementById('header-user');
   if (headerUser) headerUser.textContent = name;
+  const udAvatar = document.getElementById('ud-avatar');
+  if (udAvatar) udAvatar.textContent = name.charAt(0);
   const udName = document.getElementById('ud-name');
-  if (udName) udName.textContent = '👤 ' + name;
+  if (udName) udName.textContent = name;
   await startApp();
 }
 
