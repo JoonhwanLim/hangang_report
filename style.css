@@ -230,25 +230,44 @@ html[data-theme="light"] .header-date { color: #a8c4f0; } /* 네이비 배경 �
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  padding: 5px 9px;
-  background: transparent;
-  border: none;
-  border-radius: 8px;
-  color: rgba(255, 255, 255, .9);
+  padding: 4px 10px 4px 4px;
+  background: rgba(255, 255, 255, .06);
+  border: 1px solid rgba(255, 255, 255, .1);
+  border-radius: 999px;
+  color: rgba(255, 255, 255, .88);
   font-family: 'PretendardGOV', sans-serif;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: background .15s;
+  transition: background .15s, border-color .15s;
   white-space: nowrap;
 }
-.user-menu-btn:hover { background: rgba(255, 255, 255, .1); }
-html[data-theme="light"] .user-menu-btn { color: #fff; }
-html[data-theme="light"] .user-menu-btn:hover { background: rgba(255, 255, 255, .15); }
+.user-menu-btn:hover {
+  background: rgba(255, 255, 255, .12);
+  border-color: rgba(255, 255, 255, .2);
+}
+html[data-theme="light"] .user-menu-btn { color: #fff; border-color: rgba(255,255,255,.18); }
+html[data-theme="light"] .user-menu-btn:hover { background: rgba(255,255,255,.18); border-color: rgba(255,255,255,.3); }
+
+/* 버튼 내 미니 아바타 */
+.user-menu-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #5b8fd6, #2d5ca8);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0;
+}
 
 .user-menu-caret {
   font-size: 9px;
-  color: rgba(255, 255, 255, .4);
+  color: rgba(255, 255, 255, .38);
   margin-left: 1px;
 }
 
@@ -282,12 +301,12 @@ html[data-theme="light"] .user-dropdown {
   pointer-events: none;
 }
 .ud-avatar {
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #5b8fd6, #3a6dbf);
+  background: linear-gradient(135deg, #5b8fd6, #2d5ca8);
   color: #fff;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 700;
   display: flex;
   align-items: center;
