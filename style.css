@@ -254,15 +254,10 @@ html[data-theme="light"] .user-menu-btn:hover { background: rgba(255,255,255,.18
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #5b8fd6, #2d5ca8);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: linear-gradient(135deg, #5b8fd6, #2d5ca8)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-7 9a7 7 0 0 1 14 0H5z'/%3E%3C/svg%3E")
+    center / 68% no-repeat;
   flex-shrink: 0;
-  letter-spacing: 0;
 }
 
 .user-menu-caret {
@@ -304,13 +299,9 @@ html[data-theme="light"] .user-dropdown {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #5b8fd6, #2d5ca8);
-  color: #fff;
-  font-size: 12px;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  background: linear-gradient(135deg, #5b8fd6, #2d5ca8)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-7 9a7 7 0 0 1 14 0H5z'/%3E%3C/svg%3E")
+    center / 68% no-repeat;
   flex-shrink: 0;
 }
 .ud-username {
