@@ -229,6 +229,7 @@ html[data-theme="light"] .header-date { color: #a8c4f0; } /* 네이비 배경 �
 .user-menu-btn {
   display: inline-flex;
   align-items: center;
+  line-height: 1;
   gap: 7px;
   padding: 4px 10px 4px 4px;
   background: rgba(255, 255, 255, .06);
