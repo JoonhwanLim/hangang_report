@@ -251,6 +251,7 @@ html[data-theme="light"] .user-menu-btn:hover { background: rgba(255,255,255,.18
 
 /* 버튼 내 미니 아바타 */
 .user-menu-avatar {
+  display: block;
   width: 22px;
   height: 22px;
   border-radius: 50%;
