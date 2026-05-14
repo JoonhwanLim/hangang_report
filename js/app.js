@@ -104,13 +104,13 @@ function applyTheme(t) {
   if (btn) btn.textContent = t === 'light' ? '🌙 다크 모드' : '☀️ 라이트 모드';
 }
 
-function toggleSettingsMenu() {
-  const dd = document.getElementById('settings-dropdown');
+function toggleUserMenu() {
+  const dd = document.getElementById('user-dropdown');
   if (dd) dd.classList.toggle('open');
 }
 
-function closeSettingsMenu() {
-  const dd = document.getElementById('settings-dropdown');
+function closeUserMenu() {
+  const dd = document.getElementById('user-dropdown');
   if (dd) dd.classList.remove('open');
 }
 
@@ -120,7 +120,7 @@ function closeSettingsMenu() {
 // ── 전역 클릭 핸들러 ───────────────────────────────────────────
 document.addEventListener('click', e => {
   if (!e.target.closest('.cal-wrap')) closeCalendar();
-  if (!e.target.closest('#settings-wrap')) closeSettingsMenu();
+  if (!e.target.closest('#user-menu-wrap')) closeUserMenu();
 });
 
 // ── 앱 시작 (로그인 후 호출) ───────────────────────────────────
@@ -175,8 +175,10 @@ async function initApp() {
   if (!name) { window.location.href = 'login.html'; return; }
 
   currentUser = name;
-  const userEl = document.getElementById('header-user');
-  if (userEl) userEl.textContent = name;
+  const headerUser = document.getElementById('header-user');
+  if (headerUser) headerUser.textContent = name;
+  const udName = document.getElementById('ud-name');
+  if (udName) udName.textContent = '👤 ' + name;
   await startApp();
 }
 
