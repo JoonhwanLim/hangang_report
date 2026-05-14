@@ -179,6 +179,8 @@ async function initApp() {
   if (headerUser) headerUser.textContent = name;
   const udName = document.getElementById('ud-name');
   if (udName) udName.textContent = name;
+  const udEmail = document.getElementById('ud-email');
+  if (udEmail) udEmail.textContent = user.email || '';
   await startApp();
 }
 

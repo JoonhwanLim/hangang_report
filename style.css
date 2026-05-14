@@ -254,9 +254,10 @@ html[data-theme="light"] .user-menu-btn:hover { background: rgba(255,255,255,.18
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #5b8fd6, #2d5ca8)
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-7 9a7 7 0 0 1 14 0H5z'/%3E%3C/svg%3E")
-    center / 68% no-repeat;
+  background:
+    url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='white'%3E%3Cpath%20d='M12%2011a4%204%200%201%200%200-8%204%204%200%200%200%200%208zm-7%209a7%207%200%200%201%2014%200H5z'/%3E%3C/svg%3E")
+    center / 65% no-repeat,
+    linear-gradient(135deg, #5b8fd6, #2d5ca8);
   flex-shrink: 0;
 }
 
@@ -296,19 +297,37 @@ html[data-theme="light"] .user-dropdown {
   pointer-events: none;
 }
 .ud-avatar {
-  width: 26px;
-  height: 26px;
+  width: 34px;
+  height: 34px;
   border-radius: 50%;
-  background: linear-gradient(135deg, #5b8fd6, #2d5ca8)
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-7 9a7 7 0 0 1 14 0H5z'/%3E%3C/svg%3E")
-    center / 68% no-repeat;
+  background:
+    url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%20fill='white'%3E%3Cpath%20d='M12%2011a4%204%200%201%200%200-8%204%204%200%200%200%200%208zm-7%209a7%207%200%200%201%2014%200H5z'/%3E%3C/svg%3E")
+    center / 65% no-repeat,
+    linear-gradient(135deg, #5b8fd6, #2d5ca8);
   flex-shrink: 0;
 }
+.ud-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
 .ud-username {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: rgba(255, 255, 255, .92);
   letter-spacing: -.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.ud-email {
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(255, 255, 255, .38);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* 구분선 */
