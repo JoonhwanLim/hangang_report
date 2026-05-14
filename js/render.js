@@ -183,19 +183,20 @@ function autoGenerateIfNeeded() {
   const today = todayStr();
   const now   = new Date();
   const dow   = now.getDay();
-  if (dow >= 1 && dow <= 5 && now.getHours() >= 8 && !genDates[today]) {
-    genDates[today] = '08:00 자동생성';
+  if (dow >= 1 && dow <= 5 && !genDates[today]) {
+    genDates[today] = '00:00 자동생성';
     saveGen();
     renderGenBtn();
   }
 }
 
 function scheduleAutoGenerate() {
+  autoGenerateIfNeeded();
+  // 다음 자정에 재실행
   const now    = new Date();
-  const target = new Date(now);
-  target.setHours(8, 0, 0, 0);
-  if (now >= target) autoGenerateIfNeeded();
-  else setTimeout(autoGenerateIfNeeded, target - now);
+  const nextMidnight = new Date(now);
+  nextMidnight.setHours(24, 0, 0, 0);
+  setTimeout(autoGenerateIfNeeded, nextMidnight - now);
 }
 
 // ── 캘린더 ─────────────────────────────────────────────────────
