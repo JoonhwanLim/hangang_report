@@ -111,6 +111,7 @@ async function savePersonnel(date, val) {
 }
 
 async function migrateFromLocalStorage() {
+  return; // Supabase 이전 완료 — localStorage 재업로드 방지
   if (!sbClient || localStorage.getItem('hangang-ls-migrated')) return;
   let migrated = false;
 
