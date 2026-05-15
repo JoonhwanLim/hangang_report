@@ -182,7 +182,7 @@ function renderSearchResults(query) {
     return `
       <div class="search-result-item">
         <div class="sri-top">
-          <span class="sri-bridge">${iss.icon} ${hl(iss.bridge)}</span>
+          <span class="sri-bridge">${iss.icon || '🌉'} ${hl(iss.bridge)}</span>
           <span class="sri-status" style="color:${sc.color};background:${sc.bg};border:1px solid ${sc.border}">${iss.status}</span>
           <span class="sri-id">${iss.id}</span>
           <span class="sri-date">📅 ${iss.regDate}</span>
