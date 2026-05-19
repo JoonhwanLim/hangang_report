@@ -103,7 +103,7 @@ async function savePersonnel(date, val) {
   if (sbClient) {
     try {
       await sbClient.from('generated_reports')
-        .upsert({ report_date: date, personnel: val }, { onConflict: 'report_date' });
+        .upsert({ report_date: date, personnel: val, project_slug: currentProject?.slug || null }, { onConflict: 'report_date' });
     } catch (e) { console.error('[savePersonnel]', e); }
   }
   try { localStorage.setItem('hangang-personnel', JSON.stringify(dailyPersonnel)); } catch (e) { }
