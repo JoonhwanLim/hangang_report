@@ -71,9 +71,15 @@ function grouped(list) {
 }
 
 function visibleIssues() {
+  const CLOSED = new Set(['완료', '보류']);
   return issues.filter(i => {
     const reg = (i.regDate || i.reg_date || '').slice(0, 10);
-    return reg <= selDate;
+    if (reg > selDate) return false;
+    if (CLOSED.has(i.status)) {
+      const closed = (i.closed_date || todayStr()).slice(0, 10);
+      return closed >= selDate;
+    }
+    return true;
   });
 }
 
