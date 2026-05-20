@@ -193,7 +193,7 @@ function autoGenerateIfNeeded() {
 function scheduleAutoGenerate() {
   autoGenerateIfNeeded();
   // 다음 자정에 재실행
-  const now    = new Date();
+  const now = new Date();
   const nextMidnight = new Date(now);
   nextMidnight.setHours(24, 0, 0, 0);
   setTimeout(autoGenerateIfNeeded, nextMidnight - now);
@@ -548,7 +548,7 @@ function render() {
              <div id="att-preview-${iss.id}" class="att-preview-strip"></div>
              <button class="send-btn" onclick="addComment('${iss.id}')">등록</button>
            </div>`
-        : '<div class="past-note">📅 과거 스냅샷 — 오늘 날짜에서 코멘트를 작성할 수 있습니다</div>';
+        : '';
 
       panel.innerHTML = `<div class="timeline">${tlHtml}</div>${inputHtml}`;
       rowWrap.appendChild(panel);
