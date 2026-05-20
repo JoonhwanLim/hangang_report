@@ -71,11 +71,9 @@ function grouped(list) {
 }
 
 function visibleIssues() {
-  const ACTIVE = new Set(['대기중', '진행중']);
   return issues.filter(i => {
     const reg = (i.regDate || i.reg_date || '').slice(0, 10);
-    if (ACTIVE.has(i.status)) return reg <= selDate;
-    return (i.closed_date || '').slice(0, 10) === selDate;
+    return reg <= selDate;
   });
 }
 
