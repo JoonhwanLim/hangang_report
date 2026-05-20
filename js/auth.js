@@ -17,6 +17,8 @@ async function loadCurrentProject() {
 
   currentProject = data;
   document.title = data.name;
+  const wdBtn = document.getElementById('wd-open-btn');
+  if (wdBtn) wdBtn.style.display = data.slug === 'yeosu' ? '' : 'none';
   const engCode = slug.toUpperCase().replace(/-/g, ' ');
 
   const ids = {
