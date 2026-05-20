@@ -437,33 +437,36 @@ function st(v, gi, si, ii, field, section) {
 }
 
 function renderWDTableYeosu(wrap) {
-  const dyn = wdRows.dynamic || [];
-  const sei = wdRows.seismic || [];
-  const memo = wdRows.memo || '';
+  const dyn  = wdRows.dynamic  || [];
+  const sei  = wdRows.seismic  || [];
+  const memo = wdRows.memo     || '';
 
-  // ── 동적/정적 계측 테이블 ──
-  let h = `<div class="wd-section-title">동적/정적 계측</div>
-  <table class="wd-table"><thead>
+  // 열 순서: 공구(1) | 교량(2) | 원격접속(3) | IMS명(4) | 서버(5) | DAM(6) | 데이터수집(7) | 관리기준(8) | HDD(9) | 내용(10)
+  let h = `<table class="wd-table"><thead>
     <tr>
-      <th rowspan="2" class="wd-th-site" style="min-width:48px">공구</th>
-      <th rowspan="2" class="wd-th-site">사이트</th>
+      <th colspan="2" rowspan="2" class="wd-th-site">사이트</th>
       <th rowspan="2" class="wd-th-sm">원격<br>접속</th>
-      <th rowspan="2" class="wd-th-ims">IMS</th>
-      <th rowspan="2" class="wd-th-sm">서버</th>
-      <th colspan="2" class="wd-th-group">상태 정보</th>
-      <th rowspan="2" class="wd-th-sm">관리<br>기준</th>
+      <th colspan="2" class="wd-th-ims">IMS</th>
+      <th colspan="3" class="wd-th-group">상태 정보 (정상: ○, 이상: ✕)</th>
       <th rowspan="2" class="wd-th-sm">HDD</th>
       <th rowspan="2" class="wd-th-note">내용</th>
     </tr>
-    <tr><th class="wd-th-sm">DAM</th><th class="wd-th-sm">데이터<br>수집</th></tr>
+    <tr>
+      <th class="wd-th-ims" style="text-align:left;padding-left:8px">명칭</th>
+      <th class="wd-th-sm">서버</th>
+      <th class="wd-th-sm">DAM</th>
+      <th class="wd-th-sm">데이터<br>수집</th>
+      <th class="wd-th-sm">관리<br>기준</th>
+    </tr>
   </thead><tbody>`;
 
   dyn.forEach((grp, gi) => {
+    // NAS 특수 행
     if (grp.isNAS) {
       (grp.nas || []).forEach((nas, ni) => {
         h += `<tr>`;
-        if (ni === 0) h += `<td class="wd-site" colspan="4" rowspan="${grp.nas.length}">NAS</td>`;
-        h += `<td class="wd-ims-name" colspan="2">${nas.n}</td><td></td><td></td>`;
+        if (ni === 0) h += `<td class="wd-site" colspan="3" rowspan="${grp.nas.length}" style="text-align:center">NAS</td>`;
+        h += `<td class="wd-ims-name" colspan="5">${nas.n}</td>`;
         h += st(nas.hdd, gi, -1, ni, 'hdd', 'dynamic-nas');
         h += `<td class="wd-note-cell"><input class="wd-note-input" value="${(nas.note||'').replace(/"/g,'&quot;')}" data-section="dynamic-nas" data-gi="${gi}" data-ni="${ni}" oninput="wdNoteInput(this)"></td>`;
         h += `</tr>`;
@@ -477,22 +480,35 @@ function renderWDTableYeosu(wrap) {
     grp.sites.forEach((site, si) => {
       site.ims.forEach((ims, ii) => {
         h += `<tr>`;
-        if (!grpDone) {
-          h += `<td class="wd-site" rowspan="${totalIms}">${grp.g}</td>`;
-          h += st(grp.svr, gi, -1, -1, 'svr', 'dynamic').replace('<td ', `<td rowspan="${totalIms}" `);
-          h += st(grp.mgt, gi, -1, -1, 'mgt', 'dynamic').replace('<td ', `<td rowspan="${totalIms}" `);
-          h += st(grp.hdd, gi, -1, -1, 'hdd', 'dynamic').replace('<td ', `<td rowspan="${totalIms}" `);
-          const noteVal = (grp.note||'').replace(/</g,'&lt;');
-          h += `<td class="wd-note-cell" rowspan="${totalIms}"><textarea class="wd-note-input wd-note-ta" data-section="dynamic" data-gi="${gi}" data-si="-1" oninput="wdNoteInput(this)">${noteVal}</textarea></td>`;
-          grpDone = true;
-        }
+
+        // col1: 공구 (공구 첫 행만)
+        if (!grpDone) h += `<td class="wd-site" rowspan="${totalIms}">${grp.g}</td>`;
+
+        // col2: 교량, col3: 원격접속 (각 교량 첫 행만)
         if (ii === 0) {
           h += `<td class="wd-site" rowspan="${site.ims.length}">${site.b}</td>`;
           h += st(site.r, gi, si, -1, 'r', 'dynamic').replace('<td ', `<td rowspan="${site.ims.length}" `);
         }
+
+        // col4: IMS 명칭 (매 행)
         h += `<td class="wd-ims-name">${ims.n}</td>`;
+
+        // col5: 서버 (공구 첫 행만)
+        if (!grpDone) h += st(grp.svr, gi, -1, -1, 'svr', 'dynamic').replace('<td ', `<td rowspan="${totalIms}" `);
+
+        // col6: DAM, col7: 데이터수집 (매 행)
         h += st(ims.dam, gi, si, ii, 'dam', 'dynamic');
         h += st(ims.dat, gi, si, ii, 'dat', 'dynamic');
+
+        // col8: 관리기준, col9: HDD, col10: 내용 (공구 첫 행만)
+        if (!grpDone) {
+          h += st(grp.mgt, gi, -1, -1, 'mgt', 'dynamic').replace('<td ', `<td rowspan="${totalIms}" `);
+          h += st(grp.hdd, gi, -1, -1, 'hdd', 'dynamic').replace('<td ', `<td rowspan="${totalIms}" `);
+          const nv = (grp.note||'').replace(/</g,'&lt;');
+          h += `<td class="wd-note-cell" rowspan="${totalIms}"><textarea class="wd-note-input wd-note-ta" data-section="dynamic" data-gi="${gi}" data-si="-1" oninput="wdNoteInput(this)">${nv}</textarea></td>`;
+          grpDone = true;
+        }
+
         h += `</tr>`;
       });
     });
@@ -503,10 +519,9 @@ function renderWDTableYeosu(wrap) {
   h += `<div class="wd-section-title" style="margin-top:18px">지진 계측</div>
   <table class="wd-table"><thead>
     <tr>
-      <th class="wd-th-site" style="min-width:48px">공구</th>
-      <th class="wd-th-site">사이트</th>
+      <th colspan="2" class="wd-th-site">사이트</th>
       <th class="wd-th-sm">서버</th>
-      <th class="wd-th-ims">IMS</th>
+      <th class="wd-th-ims">IMS 명칭</th>
       <th class="wd-th-sm">데이터<br>수집</th>
       <th class="wd-th-note">내용</th>
     </tr>
@@ -525,8 +540,8 @@ function renderWDTableYeosu(wrap) {
         }
         h += `<td class="wd-ims-name">${ims.n}</td>`;
         h += st(ims.dat, gi, si, ii, 'dat', 'seismic');
-        const noteVal = (ims.note||'').replace(/"/g,'&quot;');
-        h += `<td class="wd-note-cell"><input class="wd-note-input" value="${noteVal}" data-section="seismic" data-gi="${gi}" data-si="${si}" data-ii="${ii}" oninput="wdNoteInput(this)"></td>`;
+        const nv = (ims.note||'').replace(/"/g,'&quot;');
+        h += `<td class="wd-note-cell"><input class="wd-note-input" value="${nv}" data-section="seismic" data-gi="${gi}" data-si="${si}" data-ii="${ii}" oninput="wdNoteInput(this)"></td>`;
         h += `</tr>`;
       });
     });
