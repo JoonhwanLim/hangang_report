@@ -268,14 +268,8 @@ async function wdLoad(date) {
       const { data, error } = await q.maybeSingle();
       if (!error && data?.data) return { rows: data.data, fresh: false };
     } catch (e) { console.error('[wdLoad]', e); }
-  }
-  try {
-    const cache = JSON.parse(localStorage.getItem('wd-cache') || '{}');
-    if (cache[date]) return { rows: cache[date], fresh: false };
-  } catch (e) {}
 
-  // 오늘 데이터 없음 — 가장 최근 과거 레코드로 초기화 (주말 등 공백 대응)
-  if (sbClient) {
+    // 오늘 데이터 없음 — 가장 최근 과거 레코드로 초기화 (주말 등 공백 대응)
     try {
       let q = sbClient.from('daily_work_details')
         .select('data')
@@ -287,32 +281,21 @@ async function wdLoad(date) {
       if (!error && data?.data) return { rows: data.data, fresh: true };
     } catch (e) {}
   }
-  try {
-    const cache = JSON.parse(localStorage.getItem('wd-cache') || '{}');
-    const latest = Object.keys(cache).filter(d => d < date).sort().at(-1);
-    if (latest) return { rows: cache[latest], fresh: true };
-  } catch (e) {}
 
   return { rows: currentProject?.slug === 'yeosu' ? wdBlankCloneYeosu() : wdBlankClone(), fresh: false };
 }
 
 // ── 자동 저장 (버튼 UI 건드리지 않음) ─────────────────────────
 async function wdSilentSave() {
-  if (sbClient) {
-    try {
-      await sbClient.from('daily_work_details').upsert({
-        report_date:  wdDate,
-        project_slug: currentProject?.slug || null,
-        data:         wdRows,
-        updated_at:   new Date().toISOString(),
-      }, { onConflict: 'report_date,project_slug' });
-    } catch (e) { console.error('[wdSilentSave]', e); }
-  }
+  if (!sbClient) return;
   try {
-    const cache = JSON.parse(localStorage.getItem('wd-cache') || '{}');
-    cache[wdDate] = wdRows;
-    localStorage.setItem('wd-cache', JSON.stringify(cache));
-  } catch (e) {}
+    await sbClient.from('daily_work_details').upsert({
+      report_date:  wdDate,
+      project_slug: currentProject?.slug || null,
+      data:         wdRows,
+      updated_at:   new Date().toISOString(),
+    }, { onConflict: 'report_date,project_slug' });
+  } catch (e) { console.error('[wdSilentSave]', e); }
 }
 
 // ── 데이터 저장 ────────────────────────────────────────────────
@@ -338,12 +321,6 @@ async function saveWorkDetail() {
       return;
     }
   }
-
-  try {
-    const cache = JSON.parse(localStorage.getItem('wd-cache') || '{}');
-    cache[wdDate] = wdRows;
-    localStorage.setItem('wd-cache', JSON.stringify(cache));
-  } catch (e) {}
 
   btn.textContent = '✓ 저장 완료';
   setTimeout(() => { btn.textContent = '저장'; btn.disabled = false; }, 1200);
