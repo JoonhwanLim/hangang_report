@@ -2506,7 +2506,7 @@ html[data-theme="light"] .wd-note-input { border-bottom-color: rgba(0, 0, 0, .12
 
 .wd-memo-ta {
   width: 100%;
-  min-height: 80px;
+  min-height: 160px;
   resize: vertical;
   margin-bottom: 12px;
 }
