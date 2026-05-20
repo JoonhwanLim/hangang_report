@@ -214,8 +214,13 @@ async function openWorkDetail(date) {
   const editable = date === todayStr();
 
   document.getElementById('wd-date-title').textContent = `작업 상세 내용 — ${date}`;
-  document.getElementById('wd-tbody').innerHTML =
-    '<tr><td colspan="9" class="wd-loading">불러오는 중…</td></tr>';
+  const _tbody = document.getElementById('wd-tbody');
+  if (_tbody) {
+    _tbody.innerHTML = '<tr><td colspan="9" class="wd-loading">불러오는 중…</td></tr>';
+  } else {
+    const _wrap = document.querySelector('.wd-table-wrap');
+    if (_wrap) _wrap.innerHTML = '<div class="wd-loading">불러오는 중…</div>';
+  }
 
   // 읽기전용 배너
   const body = document.querySelector('.wd-modal-body');
