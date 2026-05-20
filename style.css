@@ -2392,10 +2392,13 @@ html[data-theme="light"] .wd-modal-box {
   font-size: 12px;
 }
 
-.wd-table th {
+.wd-table thead {
   position: sticky;
   top: 0;
   z-index: 2;
+}
+
+.wd-table th {
   background: #1a2740;
   color: rgba(255, 255, 255, .75);
   font-weight: 600;

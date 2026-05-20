@@ -505,7 +505,8 @@ function renderWDTableYeosu(wrap) {
           h += st(grp.mgt, gi, -1, -1, 'mgt', 'dynamic').replace('<td ', `<td rowspan="${totalIms}" `);
           h += st(grp.hdd, gi, -1, -1, 'hdd', 'dynamic').replace('<td ', `<td rowspan="${totalIms}" `);
           const nv = (grp.note||'').replace(/</g,'&lt;');
-          h += `<td class="wd-note-cell" rowspan="${totalIms}"><textarea class="wd-note-input wd-note-ta" data-section="dynamic" data-gi="${gi}" data-si="-1" oninput="wdNoteInput(this)">${nv}</textarea></td>`;
+          const taH = Math.max(54, totalIms * 33);
+          h += `<td class="wd-note-cell" rowspan="${totalIms}"><textarea class="wd-note-input wd-note-ta" style="min-height:${taH}px" data-section="dynamic" data-gi="${gi}" data-si="-1" oninput="wdNoteInput(this)">${nv}</textarea></td>`;
           grpDone = true;
         }
 
