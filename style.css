@@ -2352,9 +2352,9 @@ html[data-theme="light"] .attachment-section { border-color: #c4d0e8; }
 .monthly-report-btn {
   display: inline-flex;
   align-items: center;
-  line-height: 1;
-  gap: 5px;
-  padding: 4px 10px;
+  justify-content: center;
+  height: 30px;
+  padding: 0 12px;
   background: rgba(0, 200, 120, .07);
   border: 1px solid rgba(0, 200, 120, .35);
   border-radius: 999px;
