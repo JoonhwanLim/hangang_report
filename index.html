@@ -28,6 +28,7 @@
       <div class="logo-sub"   id="logo-sub">BRIDGE ONLINE MONITORING SYSTEM</div>
       <div class="logo-title" id="logo-title">교량 온라인 안전감시 시스템 운영관리</div>
     </div>
+    <button id="monthly-report-btn" class="monthly-report-btn" onclick="openMonthlyModal()" style="display:none" title="월간 보고서 출력">📊 월보고서</button>
     <div class="user-menu-wrap" id="user-menu-wrap">
       <button class="user-menu-btn" id="user-menu-btn" onclick="toggleUserMenu()">
         <span class="user-menu-avatar" id="user-menu-avatar"></span>
@@ -291,6 +292,34 @@
   </div>
 </div>
 
+<!-- ══════ 월보고서 모달 (어드민 전용) ══════ -->
+<div class="modal-overlay" id="monthly-modal-overlay" onclick="handleMonthlyOverlayClick(event)">
+  <div class="modal-box" style="max-width:360px">
+    <div class="modal-header">
+      <div class="modal-title">📊 월간 보고서 출력</div>
+      <button class="modal-close" onclick="closeMonthlyModal()">✕</button>
+    </div>
+    <div class="modal-body" style="padding:24px 24px 16px">
+      <div class="ef-grid">
+        <div class="ef-row">
+          <label class="ef-label">연도</label>
+          <select class="ef-select" id="mr-year" onchange="updateMrMonths()"></select>
+        </div>
+        <div class="ef-row">
+          <label class="ef-label">월</label>
+          <select class="ef-select" id="mr-month"></select>
+        </div>
+      </div>
+      <p style="margin-top:14px;font-size:12px;color:var(--muted);line-height:1.5">해당 월의 일일 보고서 + 작업상세를<br>날짜 순서대로 하나의 PDF로 출력합니다.</p>
+      <div id="mr-status" style="margin-top:10px;font-size:11.5px;color:var(--acc);min-height:18px"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-cancel" onclick="closeMonthlyModal()">취소</button>
+      <button class="modal-save" id="mr-gen-btn" onclick="generateMonthlyReport()">생성</button>
+    </div>
+  </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="js/app.js"></script>
 <script src="js/auth.js"></script>
@@ -298,6 +327,7 @@
 <script src="js/render.js"></script>
 <script src="js/modal.js"></script>
 <script src="js/workdetail.js"></script>
+<script src="js/monthly.js"></script>
 <script>initApp();</script>
 
 </body>

@@ -2345,6 +2345,27 @@ html[data-theme="light"] .attachment-section { border-color: #c4d0e8; }
   background: rgba(91, 143, 214, .08);
 }
 
+/* 어드민 월보고서 버튼 */
+.monthly-report-btn {
+  padding: 5px 12px;
+  margin-right: 8px;
+  background: transparent;
+  border: 1px solid rgba(0, 200, 120, .45);
+  border-radius: 6px;
+  color: rgba(0, 200, 120, .9);
+  font-family: 'PretendardGOV', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.monthly-report-btn:hover {
+  border-color: #00c878;
+  color: #00c878;
+  background: rgba(0, 200, 120, .08);
+}
+
 /* 모달 박스 */
 .wd-modal-box {
   position: fixed;

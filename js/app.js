@@ -36,6 +36,7 @@ let dailyPersonnel  = {};
 let acBridges       = [];
 let acFocusIdx      = -1;
 let HANGANG_BRIDGES = [];
+let isAdmin         = false;
 
 // ── 유틸리티 ───────────────────────────────────────────────────
 function todayStr() {
@@ -179,6 +180,10 @@ async function initApp() {
   if (!name) { window.location.href = 'login.html'; return; }
 
   currentUser = name;
+  if (isAdmin) {
+    const btn = document.getElementById('monthly-report-btn');
+    if (btn) btn.style.display = '';
+  }
   const headerUser = document.getElementById('header-user');
   if (headerUser) headerUser.textContent = name;
   const udName = document.getElementById('ud-name');

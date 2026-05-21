@@ -85,7 +85,7 @@ async function checkProjectAccess(userId) {
   if (!userId || !sbClient) return false;
   const { data } = await sbClient.from('user_profiles').select('role').eq('id', userId).maybeSingle();
   if (!data) return true;
-  if (data.role === 'admin') return true;
+  if (data.role === 'admin') { isAdmin = true; return true; }
   if (!currentProject) return false;
   return data.role === currentProject.slug;
 }
