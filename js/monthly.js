@@ -330,7 +330,7 @@ function mrCSS() {
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'PretendardGOV','Pretendard',sans-serif;font-size:11px;color:#111;background:#fff}
 @page{size:A4;margin:12mm 14mm}
-@media print{.dp{page-break-after:always}.dp:last-child{page-break-after:auto}}
+@media print{.dp{page-break-before:always}.dp:first-child{page-break-before:auto}}
 .dp{padding-bottom:10px}
 
 .rh{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #1a2740;padding-bottom:6px;margin-bottom:8px}
