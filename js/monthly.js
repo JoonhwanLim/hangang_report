@@ -367,10 +367,10 @@ body{font-family:'PretendardGOV','Pretendard',sans-serif;font-size:11px;color:#1
 .wdt{font-size:11px;font-weight:700;color:#1a2740;padding:5px 0 3px;border-top:2px solid #1a2740;margin-top:10px;margin-bottom:3px}
 .wds{font-size:10px;font-weight:700;color:#333;margin:6px 0 2px}
 .wmemo{font-size:10px;color:#333;background:#f8f9fb;border:1px solid #ddd;border-radius:3px;padding:5px 8px;white-space:pre-wrap;margin-bottom:4px}
-.wt{width:100%;border-collapse:collapse;font-size:9px;margin-bottom:4px}
-.wt th{background:#253550;color:#fff;padding:3px;text-align:center;border:1px solid #3a4f70;white-space:nowrap}
-.wt td{border:1px solid #cdd6e8;padding:2px 4px;vertical-align:middle}
+.wt{width:100%;border-collapse:collapse;font-size:8px;margin-bottom:4px}
+.wt th{background:#253550;color:#fff;padding:2px;text-align:center;border:1px solid #3a4f70;white-space:nowrap}
+.wt td{border:1px solid #cdd6e8;padding:1px 3px;vertical-align:middle}
 .ws{font-weight:600;color:#2d5ca8;background:rgba(91,143,214,.04);text-align:center;white-space:nowrap}
-.wi{text-align:left}.wsc{text-align:center;font-weight:600}.wno{text-align:left;font-size:8.5px;color:#444}
+.wi{text-align:left}.wsc{text-align:center;font-weight:600}.wno{text-align:left;font-size:8px;color:#444}
 .ok{color:#00a844}.wn2{color:#e67e00}.ng{color:#e74c3c;font-weight:700}.na{color:#aaa}`;
 }

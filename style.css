@@ -224,6 +224,9 @@ html[data-theme="light"] .header-date { color: #a8c4f0; } /* 네이비 배경 �
 .user-menu-wrap {
   position: relative;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .user-menu-btn {
@@ -2347,14 +2350,16 @@ html[data-theme="light"] .attachment-section { border-color: #c4d0e8; }
 
 /* 어드민 월보고서 버튼 */
 .monthly-report-btn {
-  padding: 5px 12px;
-  margin-right: 8px;
+  display: inline-flex;
+  align-items: center;
+  line-height: 1;
+  padding: 4px 12px;
   background: transparent;
   border: 1px solid rgba(0, 200, 120, .45);
   border-radius: 6px;
   color: rgba(0, 200, 120, .9);
   font-family: 'PretendardGOV', sans-serif;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   transition: all .15s;
