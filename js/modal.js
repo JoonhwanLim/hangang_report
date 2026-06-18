@@ -21,7 +21,7 @@ function closeAddModal() {
 }
 
 function handleModalOverlayClick(e) {
-  if (e.target === document.getElementById('add-modal-overlay')) closeAddModal();
+  // 바깥 클릭으로 닫기 비활성화
 }
 
 function toggleAddForm() { openAddModal(); }
