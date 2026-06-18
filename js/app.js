@@ -183,6 +183,8 @@ async function initApp() {
   if (isAdmin) {
     const btn = document.getElementById('monthly-report-btn');
     if (btn) btn.style.display = '';
+    const kakaoBtn = document.getElementById('kakao-notify-btn');
+    if (kakaoBtn) kakaoBtn.style.display = '';
   }
   const headerUser = document.getElementById('header-user');
   if (headerUser) headerUser.textContent = name;
