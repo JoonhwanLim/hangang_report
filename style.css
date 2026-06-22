@@ -1883,6 +1883,19 @@ html[data-theme="light"] .send-btn:hover { background: #1144a8; }
 .past-note { font-family: 'PretendardGOV', sans-serif; font-size: 13px; color: var(--dim); }
 html[data-theme="light"] .past-note { color: #a0b0c8; font-style: italic; }
 
+/* 댓글 수정/삭제 버튼 */
+.cmt-edit-btns { display: inline-flex; gap: 4px; margin-left: 6px; }
+.cmt-btn {
+  font-size: 11px; padding: 1px 7px; border-radius: 4px; cursor: pointer;
+  border: 1px solid var(--bdr); background: transparent; color: var(--dim);
+  transition: all .15s;
+}
+.cmt-btn:hover { background: rgba(0,212,255,.1); color: var(--fg); }
+.cmt-btn-del:hover { background: rgba(255,80,80,.12); color: #ff5050; border-color: rgba(255,80,80,.3); }
+html[data-theme="light"] .cmt-btn { color: #666; border-color: #ccc; }
+html[data-theme="light"] .cmt-btn:hover { background: #e8f0fe; color: #1653c7; }
+html[data-theme="light"] .cmt-btn-del:hover { background: #fdecea; color: #c62828; border-color: #f5c6c6; }
+
 
 /* ════════════════════════════════════════════════════════════════
    15. 프로그레스 카드 & 푸터

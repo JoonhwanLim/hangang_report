@@ -312,6 +312,51 @@ async function addComment(id) {
   render();
 }
 
+function deleteComment(issId, cmtId) {
+  const iss = issues.find(i => i.id == issId);
+  if (!iss) return;
+  const c = iss.comments.find(c => c.id == cmtId);
+  if (!c || c.author !== currentUser) return;
+  if (!confirm('댓글을 삭제할까요?')) return;
+  iss.comments = iss.comments.filter(c => c.id != cmtId);
+  save();
+  expandedId = issId;
+  render();
+}
+
+function startEditComment(issId, cmtId) {
+  const textEl = document.getElementById('cmt-text-' + cmtId);
+  if (!textEl) return;
+  const original = textEl.textContent;
+  textEl.innerHTML = `
+    <div style="display:flex;gap:6px;margin-top:4px">
+      <input id="cmt-edit-input-${cmtId}" style="flex:1;background:var(--input-bg);border:1px solid var(--bdr);border-radius:4px;padding:4px 8px;color:var(--fg);font-size:13px" value="${original.replace(/"/g, '&quot;')}">
+      <button class="cmt-btn" onclick="saveCommentEdit('${issId}','${cmtId}')">저장</button>
+      <button class="cmt-btn" onclick="cancelEditComment('${cmtId}','${original.replace(/'/g, "\\'")}')">취소</button>
+    </div>`;
+}
+
+function saveCommentEdit(issId, cmtId) {
+  const input = document.getElementById('cmt-edit-input-' + cmtId);
+  if (!input) return;
+  const newText = input.value.trim();
+  if (!newText) return;
+  const iss = issues.find(i => i.id == issId);
+  if (!iss) return;
+  const c = iss.comments.find(c => c.id == cmtId);
+  if (!c || c.author !== currentUser) return;
+  c.text = newText;
+  c.date = c.date + ' (수정됨)';
+  save();
+  expandedId = issId;
+  render();
+}
+
+function cancelEditComment(cmtId, original) {
+  const textEl = document.getElementById('cmt-text-' + cmtId);
+  if (textEl) textEl.textContent = original;
+}
+
 // ── 메인 렌더 ──────────────────────────────────────────────────
 function render() {
   const today   = todayStr();
@@ -525,16 +570,27 @@ function render() {
       panel.className = 'comment-panel' + (isExp ? ' open' : '');
       const tlHtml    = iss.comments.length === 0
         ? '<div class="no-comment">아직 코멘트가 없습니다.</div>'
-        : iss.comments.map(c => `
-          <div class="tl-item">
+        : iss.comments.map(c => {
+            const isMine = c.type === 'comment' && c.author === currentUser;
+            const editBtns = isMine ? `
+              <span class="cmt-edit-btns">
+                <button class="cmt-btn" onclick="startEditComment('${iss.id}','${c.id}')">수정</button>
+                <button class="cmt-btn cmt-btn-del" onclick="deleteComment('${iss.id}','${c.id}')">삭제</button>
+              </span>` : '';
+            return `
+          <div class="tl-item" id="cmt-${c.id}">
             <div class="tl-dot" style="background:${c.type === 'status' ? '#445566' : '#00d4ff'}"></div>
-            <div>
-              <span class="tl-author" style="color:${c.type === 'status' ? '#8899bb' : '#00d4ff'}">${c.type === 'status' ? '🔄' : '💬'} ${c.author}</span>
-              <span class="tl-date">${c.date}</span>
-              <div class="tl-text ${c.type === 'status' ? 'tl-text-status' : 'tl-text-comment'}">${c.text}</div>
+            <div style="flex:1">
+              <div style="display:flex;align-items:center;gap:6px">
+                <span class="tl-author" style="color:${c.type === 'status' ? '#8899bb' : '#00d4ff'}">${c.type === 'status' ? '🔄' : '💬'} ${c.author}</span>
+                <span class="tl-date">${c.date}</span>
+                ${editBtns}
+              </div>
+              <div class="tl-text ${c.type === 'status' ? 'tl-text-status' : 'tl-text-comment'}" id="cmt-text-${c.id}">${c.text}</div>
               ${c.attachment ? `<a href="${getAttachmentUrl(c.attachment.path)}" target="_blank" class="tl-att-link">📎 ${c.attachment.name} <span class="tl-att-size">${formatFileSize(c.attachment.size)}</span></a>` : ''}
             </div>
-          </div>`).join('');
+          </div>`;
+          }).join('');
 
       const inputHtml = isToday
         ? `<div class="comment-input">
