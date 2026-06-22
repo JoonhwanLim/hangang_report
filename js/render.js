@@ -598,7 +598,8 @@ function render() {
              <div class="comment-text-row">
                <input class="text-input" id="txt-${iss.id}" placeholder="팔로우업 내용 입력 후 Enter..." onkeydown="if(event.key==='Enter')addComment('${iss.id}')">
                <label class="att-inline-btn" title="파일 첨부">
-                 📎<input type="file" id="att-file-${iss.id}" style="display:none" onchange="updateAttPreview('${iss.id}',this)">
+                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                 <input type="file" id="att-file-${iss.id}" style="display:none" onchange="updateAttPreview('${iss.id}',this)">
                </label>
              </div>
              <div id="att-preview-${iss.id}" class="att-preview-strip"></div>

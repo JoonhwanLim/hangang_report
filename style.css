@@ -2220,16 +2220,17 @@ html[data-theme="light"] .footer-note { color: #a0b0c8; }
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
-  border: 1px solid var(--bdr);
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid var(--acc);
   border-radius: 6px;
   cursor: pointer;
-  font-size: 14px;
-  color: var(--dim);
-  transition: border-color .15s, color .15s;
+  color: var(--acc);
+  transition: background .15s, color .15s;
 }
-.att-inline-btn:hover { border-color: var(--acc); color: var(--acc); }
+.att-inline-btn:hover { background: rgba(0,212,255,.15); }
+html[data-theme="light"] .att-inline-btn { border-color: #1653c7; color: #1653c7; }
+html[data-theme="light"] .att-inline-btn:hover { background: #e8f0fe; }
 
 /* 선택된 파일명 미리보기 */
 .att-preview-strip {
