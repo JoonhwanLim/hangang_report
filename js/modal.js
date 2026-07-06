@@ -4,12 +4,17 @@
 
 // ── 이슈 추가 모달 ─────────────────────────────────────────────
 function openAddModal() {
-  const dl = document.getElementById('af-bridge-list');
-  if (dl) dl.innerHTML = HANGANG_BRIDGES.map(b => `<option value="${b}">`).join('');
+  const sel = document.getElementById('af-bridge');
+  if (sel) {
+    sel.innerHTML = '<option value="">교량 선택</option>' +
+      HANGANG_BRIDGES.map(b => `<option value="${b}">${b}</option>`).join('');
+  }
 
-  ['af-bridge', 'af-problem', 'af-action', 'af-assignee'].forEach(id => {
+  ['af-problem', 'af-action', 'af-assignee'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = '';
   });
+  const bridgeSel = document.getElementById('af-bridge');
+  if (bridgeSel) bridgeSel.value = '';
   const ck  = document.getElementById('af-ongoing'); if (ck)  ck.checked = false;
   const cat = document.getElementById('af-cat');     if (cat) cat.value  = '센서';
 

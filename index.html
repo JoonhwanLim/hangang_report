@@ -29,7 +29,6 @@
       <div class="logo-title" id="logo-title">교량 온라인 안전감시 시스템 운영관리</div>
     </div>
     <div class="user-menu-wrap" id="user-menu-wrap">
-      <button id="kakao-notify-btn" class="monthly-report-btn" onclick="openKakaoModal()" style="display:none" title="카카오톡 발송">💬 카톡</button>
       <button id="monthly-report-btn" class="monthly-report-btn" onclick="openMonthlyModal()" style="display:none" title="월간 보고서 출력">📊 월보고서</button>
       <button class="user-menu-btn" id="user-menu-btn" onclick="toggleUserMenu()">
         <span class="user-menu-avatar" id="user-menu-avatar"></span>
@@ -144,8 +143,9 @@
       <div class="ef-grid">
         <div class="ef-row">
           <label class="ef-label">교량명</label>
-          <input class="ef-input" id="af-bridge" list="af-bridge-list" placeholder="교량명 입력">
-          <datalist id="af-bridge-list"></datalist>
+          <select class="ef-input" id="af-bridge">
+            <option value="">교량 선택</option>
+          </select>
         </div>
         <div class="ef-row">
           <label class="ef-label">카테고리</label>
