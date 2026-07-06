@@ -1897,9 +1897,25 @@ html[data-theme="light"] .cmt-btn:hover { background: #e8f0fe; color: #1653c7; }
 html[data-theme="light"] .cmt-btn-del:hover { background: #fdecea; color: #c62828; border-color: #f5c6c6; }
 
 
-/* 완료/보류 이슈 - 흐릿하게 */
-.issue-closed { opacity: 0.6; }
-.issue-closed:hover { opacity: 0.9; transition: opacity .2s; }
+/* 완료 섹션 헤더 */
+.closed-section-header {
+  margin: 28px 0 10px;
+  padding: 8px 14px;
+  font-size: 13px; font-weight: 600;
+  color: #00c853;
+  border-left: 3px solid #00c853;
+  background: rgba(0,200,83,.07);
+  border-radius: 0 6px 6px 0;
+}
+.closed-section-sub { font-weight: 400; font-size: 12px; color: var(--dim); margin-left: 6px; }
+html[data-theme="light"] .closed-section-header { color: #2e7d32; border-color: #2e7d32; background: #f1f8f2; }
+
+/* 완료 카드 */
+.bridge-card-closed { opacity: 1; border: 1px dashed rgba(0,200,83,.3) !important; background: rgba(0,200,83,.03) !important; }
+html[data-theme="light"] .bridge-card-closed { border-color: rgba(46,125,50,.25) !important; background: #f9fdf9 !important; }
+
+/* 완료 이슈 행 */
+.issue-closed { opacity: 1; filter: grayscale(30%); }
 
 /* 완료 날짜 표시 */
 .meta-closed { color: #00c853 !important; font-weight: 500; }

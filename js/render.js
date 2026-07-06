@@ -456,8 +456,11 @@ function render() {
   main.innerHTML = '';
   document.getElementById('notice-area').innerHTML = '';
 
-  const g          = grouped(vis);
-  acBridges        = Object.keys(g);
+  const CLOSED_SET  = new Set(['완료', '보류']);
+  const activeVis   = vis.filter(i => !CLOSED_SET.has(i.status));
+  const closedVis   = vis.filter(i =>  CLOSED_SET.has(i.status));
+  const g           = grouped(activeVis);
+  acBridges         = Object.keys(g);
 
   // 검색 툴바 (최초 1회 생성)
   const filterArea = document.getElementById('filter-area');
@@ -504,10 +507,13 @@ function render() {
   }
 
   // 교량 카드 목록
-  const q        = bridgeFilter.toLowerCase();
-  const filtered = Object.entries(g)
+  const q = bridgeFilter.toLowerCase();
+  const applyFilter = (grp) => Object.entries(grp)
     .map(([bridge, list]) => [bridge, q ? list.filter(i => i.problem.toLowerCase().includes(q) || i.action.toLowerCase().includes(q) || bridge.toLowerCase().includes(q)) : list])
     .filter(([, list]) => list.length > 0);
+
+  const filtered       = applyFilter(g);
+  const closedFiltered = applyFilter(grouped(closedVis));
 
   filtered.forEach(([bridge, list]) => {
     const card     = document.createElement('div');
@@ -535,10 +541,8 @@ function render() {
       const rowWrap     = document.createElement('div');
       if (idx < list.length - 1) rowWrap.style.borderBottom = '1px solid var(--bdr)';
 
-      const isClosed = ['완료', '보류'].includes(iss.status);
-
       const row     = document.createElement('div');
-      row.className = 'issue-row' + (isClosed ? ' issue-closed' : '');
+      row.className = 'issue-row';
 
       const pillsHtml = STATUS_LIST.map(st => {
         const active = st === iss.status;
@@ -572,10 +576,7 @@ function render() {
             <span class="meta-item">📅 등록 <b>${iss.regDate}</b></span>
             ${iss.registeredBy ? `<span class="meta-item">🙋 ${iss.registeredBy}</span>` : ''}
             <span class="meta-item">💬 ${commentCount}개</span>
-            ${isClosed && iss.closed_date ? `<span class="meta-item meta-closed">✅ 완료 <b>${iss.closed_date.slice(0,10)}</b></span>` : ''}
-            ${isToday && !isClosed ? `<button class="edit-btn" onclick="startEdit('${iss.id}')">✏️ 수정</button>` : ''}
-            ${isClosed ? `<button class="reopen-btn" onclick="reopenIssue('${iss.id}')">🔄 재개</button>` : ''}
-            ${isClosed ? `<button class="reissue-btn" onclick="reIssueFromClosed('${iss.id}')">➕ 재이슈 등록</button>` : ''}
+            ${isToday ? `<button class="edit-btn" onclick="startEdit('${iss.id}')">✏️ 수정</button>` : ''}
           </div>
           <div class="action-footer">
             ${iss.assignee ? `<span class="af-who">담당자: ${iss.assignee}</span><span class="af-sep">·</span>` : ''}
@@ -639,6 +640,86 @@ function render() {
     card.appendChild(rightEl);
     main.appendChild(card);
   });
+
+  // 완료 이슈 섹션 (하단)
+  if (closedFiltered.length > 0) {
+    const closedHeader = document.createElement('div');
+    closedHeader.className = 'closed-section-header';
+    closedHeader.innerHTML = `✅ 최근 완료 이슈 <span class="closed-section-sub">(완료 후 3일 이내)</span>`;
+    main.appendChild(closedHeader);
+
+    closedFiltered.forEach(([bridge, list]) => {
+      const card = document.createElement('div');
+      card.className = 'bridge-card bridge-card-closed';
+
+      const leftEl = document.createElement('div');
+      leftEl.className = 'bridge-left';
+      const dotsHtml = list.map(i => `<span class="status-dot" style="background:${SC[i.status].color}"></span>`).join('');
+      leftEl.innerHTML = `
+        <div class="bridge-left-name">${bridge}</div>
+        <div class="bridge-left-footer">
+          <div class="status-dots">${dotsHtml}</div>
+          <div class="bridge-left-cnt">${list.length}건</div>
+        </div>`;
+      card.appendChild(leftEl);
+
+      const rightEl = document.createElement('div');
+      rightEl.className = 'bridge-issues';
+
+      list.forEach((iss, idx) => {
+        const sc           = SC[iss.status];
+        const isExp        = expandedId === iss.id;
+        const commentCount = iss.comments.filter(c => c.type === 'comment').length;
+
+        const rowWrap = document.createElement('div');
+        if (idx < list.length - 1) rowWrap.style.borderBottom = '1px solid var(--bdr)';
+
+        const row = document.createElement('div');
+        row.className = 'issue-row issue-closed';
+
+        row.innerHTML = `
+          <div class="sev-bar" style="background:${sc.bar};opacity:.4"></div>
+          <div class="issue-body">
+            <div class="problem-txt">${iss.problem}</div>
+            <div class="meta-row">
+              <span class="meta-item">📅 등록 <b>${iss.regDate}</b></span>
+              ${iss.registeredBy ? `<span class="meta-item">🙋 ${iss.registeredBy}</span>` : ''}
+              <span class="meta-item">💬 ${commentCount}개</span>
+              ${iss.closed_date ? `<span class="meta-item meta-closed">✅ 완료 <b>${iss.closed_date.slice(0,10)}</b></span>` : ''}
+              <button class="reopen-btn" onclick="reopenIssue('${iss.id}')">🔄 재개</button>
+              <button class="reissue-btn" onclick="reIssueFromClosed('${iss.id}')">➕ 재이슈 등록</button>
+            </div>
+            <div class="action-footer">
+              ${iss.assignee ? `<span class="af-who">담당자: ${iss.assignee}</span><span class="af-sep">·</span>` : ''}
+              <span class="af-fix-icon">🔧</span>
+              <span class="af-txt">${lastActionLine(iss.action) || '(조치 내용 없음)'}</span>
+              <button class="followup-btn" onclick="toggleExpand('${iss.id}')">${isExp ? '접기 ▲' : '조치사항 ▼'}</button>
+            </div>
+          </div>`;
+        rowWrap.appendChild(row);
+
+        const panel = document.createElement('div');
+        panel.className = 'comment-panel' + (isExp ? ' open' : '');
+        const tlHtml = iss.comments.length === 0
+          ? '<div class="no-comment">아직 코멘트가 없습니다.</div>'
+          : iss.comments.map(c => `
+            <div class="tl-item">
+              <div class="tl-dot" style="background:${c.type === 'status' ? '#445566' : '#00d4ff'}"></div>
+              <div>
+                <span class="tl-author" style="color:${c.type === 'status' ? '#8899bb' : '#00d4ff'}">${c.type === 'status' ? '🔄' : '💬'} ${c.author}</span>
+                <span class="tl-date">${c.date}</span>
+                <div class="tl-text ${c.type === 'status' ? 'tl-text-status' : 'tl-text-comment'}">${c.text}</div>
+              </div>
+            </div>`).join('');
+        panel.innerHTML = `<div class="timeline">${tlHtml}</div>`;
+        rowWrap.appendChild(panel);
+        rightEl.appendChild(rowWrap);
+      });
+
+      card.appendChild(rightEl);
+      main.appendChild(card);
+    });
+  }
 
   // 프로그레스 카드
   const prog     = document.createElement('div');
