@@ -1174,6 +1174,9 @@ html[data-theme="light"] .sri-comments { border-color: #dde6f5; }
 .sri-c-text   { font-size: 13px; color: #c8d5ec; line-height: 1.5; }
 html[data-theme="light"] .sri-c-text { color: #1a2840; }
 
+/* 검색결과 재개/재이슈 버튼 행 */
+.sri-btn-row { display: flex; gap: 8px; padding: 8px 0 2px; }
+
 /* 키워드 하이라이트 */
 .search-hl {
   background: rgba(255, 200, 0, .3);

@@ -221,6 +221,10 @@ function renderSearchResults(query) {
           ${hasComments ? `<button class="followup-btn sri-followup-btn" onclick="toggleSriComment('${iss.id}')">조치사항 ▼</button>` : ''}
         </div>
         ${hasComments ? `<div class="sri-comments" id="sri-c-${iss.id}">${commentsHtml}</div>` : ''}
+        <div class="sri-btn-row">
+          <button class="reopen-btn" onclick="reopenIssue('${iss.id}');closeSearchModal()">🔄 재개</button>
+          <button class="reissue-btn" onclick="reIssueFromClosed('${iss.id}');closeSearchModal()">➕ 재이슈 등록</button>
+        </div>
       </div>`;
   }).join('');
 }
