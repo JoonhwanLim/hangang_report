@@ -3,13 +3,13 @@
    ════════════════════════════════════════════════════════════════ */
 
 // ── 이슈 추가 모달 ─────────────────────────────────────────────
-function openAddModal() {
+function openAddModal(prefill = {}) {
   const sel = document.getElementById('af-bridge');
   if (sel) {
     sel.innerHTML = '<option value="">교량 선택</option>' +
       HANGANG_BRIDGES.map(b => `<option value="${b}">${b}</option>`).join('') +
       '<option value="__custom__">직접 입력...</option>';
-    sel.value = '';
+    sel.value = prefill.bridge || '';
   }
   const custom = document.getElementById('af-bridge-custom');
   if (custom) { custom.style.display = 'none'; custom.value = ''; }
@@ -18,7 +18,12 @@ function openAddModal() {
     const el = document.getElementById(id); if (el) el.value = '';
   });
   const ck  = document.getElementById('af-ongoing'); if (ck)  ck.checked = false;
-  const cat = document.getElementById('af-cat');     if (cat) cat.value  = '센서';
+  const cat = document.getElementById('af-cat');     if (cat) cat.value = prefill.category || '센서';
+
+  if (prefill.problem) {
+    const el = document.getElementById('af-problem');
+    if (el) el.value = prefill.problem;
+  }
 
   document.getElementById('add-modal-overlay').classList.add('open');
 }

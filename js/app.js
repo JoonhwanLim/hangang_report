@@ -78,7 +78,11 @@ function visibleIssues() {
     if (reg > selDate) return false;
     if (CLOSED.has(i.status)) {
       const closed = (i.closed_date || todayStr()).slice(0, 10);
-      return closed >= selDate;
+      // 완료/보류 후 3일간 유지
+      const d = new Date(closed + 'T00:00:00');
+      d.setDate(d.getDate() + 3);
+      const showUntil = d.toISOString().slice(0, 10);
+      return closed <= selDate && showUntil >= selDate;
     }
     return true;
   });

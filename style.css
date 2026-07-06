@@ -1897,6 +1897,28 @@ html[data-theme="light"] .cmt-btn:hover { background: #e8f0fe; color: #1653c7; }
 html[data-theme="light"] .cmt-btn-del:hover { background: #fdecea; color: #c62828; border-color: #f5c6c6; }
 
 
+/* 완료/보류 이슈 - 흐릿하게 */
+.issue-closed { opacity: 0.6; }
+.issue-closed:hover { opacity: 0.9; transition: opacity .2s; }
+
+/* 완료 날짜 표시 */
+.meta-closed { color: #00c853 !important; font-weight: 500; }
+html[data-theme="light"] .meta-closed { color: #2e7d32 !important; }
+
+/* 재개 / 재이슈 등록 버튼 */
+.reopen-btn, .reissue-btn {
+  font-size: 11px; padding: 2px 8px; border-radius: 4px; cursor: pointer;
+  border: 1px solid; transition: all .15s; margin-left: 2px;
+}
+.reopen-btn { border-color: rgba(255,149,0,.5); color: #ff9500; background: rgba(255,149,0,.08); }
+.reopen-btn:hover { background: rgba(255,149,0,.2); }
+.reissue-btn { border-color: rgba(0,212,255,.4); color: #00d4ff; background: rgba(0,212,255,.07); }
+.reissue-btn:hover { background: rgba(0,212,255,.18); }
+html[data-theme="light"] .reopen-btn { border-color: #e65100; color: #e65100; background: #fff3e0; }
+html[data-theme="light"] .reopen-btn:hover { background: #ffe0b2; }
+html[data-theme="light"] .reissue-btn { border-color: #1653c7; color: #1653c7; background: #e8f0fe; }
+html[data-theme="light"] .reissue-btn:hover { background: #c5d8fb; }
+
 /* ════════════════════════════════════════════════════════════════
    15. 프로그레스 카드 & 푸터
    ════════════════════════════════════════════════════════════════ */

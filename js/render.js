@@ -312,6 +312,25 @@ async function addComment(id) {
   render();
 }
 
+function reopenIssue(id) {
+  const iss = issues.find(i => i.id === id);
+  if (!iss) return;
+  if (!confirm('이 이슈를 재개할까요? 상태가 대기중으로 변경됩니다.')) return;
+  iss.status      = '대기중';
+  iss.closed_date = null;
+  iss.comments.push({ id: Date.now(), type: 'status', text: '재개: 완료 → 대기중', author: currentUser || '시스템', date: nowStr() });
+  save();
+  selDate = todayStr();
+  expandedId = id;
+  render();
+}
+
+function reIssueFromClosed(id) {
+  const iss = issues.find(i => i.id === id);
+  if (!iss) return;
+  openAddModal({ bridge: iss.bridge, category: iss.category, problem: iss.problem });
+}
+
 function deleteComment(issId, cmtId) {
   const iss = issues.find(i => i.id == issId);
   if (!iss) return;
@@ -516,8 +535,10 @@ function render() {
       const rowWrap     = document.createElement('div');
       if (idx < list.length - 1) rowWrap.style.borderBottom = '1px solid var(--bdr)';
 
+      const isClosed = ['완료', '보류'].includes(iss.status);
+
       const row     = document.createElement('div');
-      row.className = 'issue-row';
+      row.className = 'issue-row' + (isClosed ? ' issue-closed' : '');
 
       const pillsHtml = STATUS_LIST.map(st => {
         const active = st === iss.status;
@@ -551,7 +572,10 @@ function render() {
             <span class="meta-item">📅 등록 <b>${iss.regDate}</b></span>
             ${iss.registeredBy ? `<span class="meta-item">🙋 ${iss.registeredBy}</span>` : ''}
             <span class="meta-item">💬 ${commentCount}개</span>
-            ${isToday ? `<button class="edit-btn" onclick="startEdit('${iss.id}')">✏️ 수정</button>` : ''}
+            ${isClosed && iss.closed_date ? `<span class="meta-item meta-closed">✅ 완료 <b>${iss.closed_date.slice(0,10)}</b></span>` : ''}
+            ${isToday && !isClosed ? `<button class="edit-btn" onclick="startEdit('${iss.id}')">✏️ 수정</button>` : ''}
+            ${isClosed ? `<button class="reopen-btn" onclick="reopenIssue('${iss.id}')">🔄 재개</button>` : ''}
+            ${isClosed ? `<button class="reissue-btn" onclick="reIssueFromClosed('${iss.id}')">➕ 재이슈 등록</button>` : ''}
           </div>
           <div class="action-footer">
             ${iss.assignee ? `<span class="af-who">담당자: ${iss.assignee}</span><span class="af-sep">·</span>` : ''}
