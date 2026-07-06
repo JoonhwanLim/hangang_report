@@ -7,18 +7,32 @@ function openAddModal() {
   const sel = document.getElementById('af-bridge');
   if (sel) {
     sel.innerHTML = '<option value="">교량 선택</option>' +
-      HANGANG_BRIDGES.map(b => `<option value="${b}">${b}</option>`).join('');
+      HANGANG_BRIDGES.map(b => `<option value="${b}">${b}</option>`).join('') +
+      '<option value="__custom__">직접 입력...</option>';
+    sel.value = '';
   }
+  const custom = document.getElementById('af-bridge-custom');
+  if (custom) { custom.style.display = 'none'; custom.value = ''; }
 
   ['af-problem', 'af-action', 'af-assignee'].forEach(id => {
     const el = document.getElementById(id); if (el) el.value = '';
   });
-  const bridgeSel = document.getElementById('af-bridge');
-  if (bridgeSel) bridgeSel.value = '';
   const ck  = document.getElementById('af-ongoing'); if (ck)  ck.checked = false;
   const cat = document.getElementById('af-cat');     if (cat) cat.value  = '센서';
 
   document.getElementById('add-modal-overlay').classList.add('open');
+}
+
+function handleBridgeSelect(sel) {
+  const custom = document.getElementById('af-bridge-custom');
+  if (!custom) return;
+  if (sel.value === '__custom__') {
+    custom.style.display = '';
+    custom.focus();
+  } else {
+    custom.style.display = 'none';
+    custom.value = '';
+  }
 }
 
 function closeAddModal() {
@@ -32,7 +46,10 @@ function handleModalOverlayClick(e) {
 function toggleAddForm() { openAddModal(); }
 
 function submitAddForm() {
-  const bridge   = (document.getElementById('af-bridge')?.value   || '').trim();
+  const selVal   =  document.getElementById('af-bridge')?.value || '';
+  const bridge   = selVal === '__custom__'
+    ? (document.getElementById('af-bridge-custom')?.value || '').trim()
+    : selVal.trim();
   const problem  = (document.getElementById('af-problem')?.value  || '').trim();
   const action   = (document.getElementById('af-action')?.value   || '').trim();
   const category =  document.getElementById('af-cat')?.value      || '기타';

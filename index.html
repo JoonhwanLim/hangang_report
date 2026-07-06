@@ -143,9 +143,10 @@
       <div class="ef-grid">
         <div class="ef-row">
           <label class="ef-label">교량명</label>
-          <select class="ef-input" id="af-bridge">
+          <select class="ef-input" id="af-bridge" onchange="handleBridgeSelect(this)">
             <option value="">교량 선택</option>
           </select>
+          <input class="ef-input" id="af-bridge-custom" placeholder="교량명 직접 입력" style="display:none;margin-top:6px">
         </div>
         <div class="ef-row">
           <label class="ef-label">카테고리</label>
